@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,26 +35,24 @@ public class AddNoteActivity extends AppCompatActivity {
 
         //Added for assignment:
         String text = getIntent().getStringExtra("NOTE_TEXT");
-        if(text != null){
+        if (text != null) {
             noteEditText.setText(text);
         }
+
+
 
         Button button = findViewById(R.id.add_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent();
-                if(TextUtils.isEmpty(noteEditText.getText())) {
+                if (TextUtils.isEmpty(noteEditText.getText())) {
                     setResult(RESULT_CANCELED, i);
-                    }
-                else if(getIntent().hasExtra("NOTE_ID"){
-                    i.putExtra("NOTE_ID", getIntent().getIntExtra("NOTE_ID", -1));
-                    i.putExtra("NOTE_TEXT", noteEditText.getText().toString());
-                    if(getIntent().hasExtra("NOTE_TEXT")){
-                        setResult(RESULT_OK, i);
-                    }
                 } else {
                     setResult(RESULT_OK, i);
+                    if(getIntent().hasExtra("NOTE_ID")) {
+                        i.putExtra("NOTE_ID", getIntent().getIntExtra("NOTE_ID", -1));
+                    }
                     i.putExtra("NOTE_TEXT", noteEditText.getText().toString());
                 }
                 finish();

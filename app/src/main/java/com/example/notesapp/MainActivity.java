@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
+import android.widget.Toast;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,13 +67,17 @@ public class MainActivity extends AppCompatActivity implements NoteListAdapter.I
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK){
+        if(requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
             Note note = new Note();
             note.setNoteText(data.getStringExtra("NOTE_TEXT"));
-            //TODO: call view model insert
-            viewModel.insert(note);
+
+            if(data.hasExtra("NOTE_ID")) {
+                note.setId(data.getIntExtra("NOTE_ID", -1));
+                viewModel.update(note);
+            } else {
+                viewModel.insert(note);
+            }
         }
-        //TODO: For the assignment you can add the case of handling a note update here:
 
     }
 
