@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements NoteListAdapter.I
             }
         });
 
-        //TODO: setup view model
         viewModel = new ViewModelProvider(this).get(NoteViewModel.class);
         viewModel.getAllNotes().observe(this, notes -> {
             adapter.setNotes(notes);
@@ -92,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NoteListAdapter.I
 
     @Override
     public void onItemLongClicked(Note note) {
-        // You can react to a long press on a note by doing sth here
+        lastClickedNote = note;
+        viewModel.delete(lastClickedNote);
+        //Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
     }
 }
